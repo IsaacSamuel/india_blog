@@ -16,3 +16,143 @@ h2              { font-size: 1.2em; }
 .flash          { background: #cee5F5; padding: 0.5em;
                   border: 1px solid #aacbe2; }
 .error          { background: #f0d6d6; padding: 0.5em; }
+
+
+div.map {
+	height: 700px;
+	width: 600px;
+	background-image: url("ind-pol.gif");
+	border: 2px black solid;
+	margin: auto;
+	width: 80%;
+}
+
+div.southcity {
+	height: 7px;
+	width: 7px;
+	background-color: orange;
+	border-radius: 100%;
+}
+
+div.studycity {
+	height: 7px;
+	width: 7px;
+	background-color: green;
+	border-radius: 100%;
+}
+
+div.northcity {
+	height: 7px;
+	width: 7px;
+	background-color: blue;
+	border-radius: 100%;
+}
+
+#chennai {
+	position: relative;
+	right: 285px;
+	bottom: 153px;
+}
+
+#bangalore {
+	position: relative;
+	right: 345px;
+	bottom: 151px;
+}
+
+#cochin {
+	position: relative;
+	right: 376px;
+	bottom: 86px;
+}
+
+#trivandrum {
+	position: relative;
+	right: 368px;
+	bottom: 60px;
+}
+
+#goa {
+	position: relative;
+	right: 426px;
+	bottom: 211px;
+}
+
+#colombo {
+	position: relative;
+	right: 292px;
+	bottom: 50px;
+}
+
+#hyderabad {
+	position: relative;
+	right: 324px;
+	bottom: 250px;
+}
+
+#agra {
+	position: relative;
+	top: 218px;
+	left: 260px;
+}
+
+#delhi {
+	position: relative;
+	top: 187px;
+	left: 245px;
+}
+
+
+#varanasi {
+	position: relative;
+	top: 261px;
+	left: 362px;
+}
+
+#katmandu {
+	position: relative;
+	top: 190px;
+	left: 340px;
+}
+
+#jammu {
+	position: relative;
+	top: 91px;
+	left: 202px;
+}
+
+#srinagar {
+	position: relative;
+	top: 62px;
+	left: 202px;
+}
+
+#jaipur {
+	position: relative;
+	top: 224px;
+	left: 215px;
+}
+
+#jaisalmer {
+	position: relative;
+	top: 220px;
+	left: 140px;
+}
+
+#jodhpur {
+	position: relative;
+	top: 236px;
+	left: 158px;
+}
+
+#mumbai {
+	position: relative;
+	top: 402px;
+	left: 146px;
+}
+
+#pune {
+	position: relative;
+	top: 413px;
+	left: 166px;
+}

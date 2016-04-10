@@ -1,10 +1,10 @@
 <html>
 	<head>
-		<title>Baby's Second Flask Application</title>
+		<title>Indian Jaunt 2016</title>
 		<link rel="stylesheet" type=text/css href="{{ url_for('static', filename="style.css")}}">
 	</head>
 	<body>
-		<h1>Flask Blogging Application</h1>
+		<h1>Indian Jaunt 2016</h1>
 
 		<div class = metanav>
 			{% if not session.logged_in %}
@@ -20,5 +20,45 @@
 			</div>
 		{% endfor %}
 
+		<div class="map">
+			<div class="southcity" id="chennai">
+			</div>
+			<div class="studycity" id="bangalore">
+			</div>
+			<div class="southcity" id="cochin">
+			</div>
+			<div class="southcity" id="trivandrum">
+			</div>
+			<div class="southcity" id="goa">
+			</div>
+			<div class="southcity" id="colombo">
+			</div>
+			<div class="studycity" id="hyderabad">
+			</div>
+			<div class="northcity" id="agra">
+			</div>
+			<div class="northcity" id="delhi">
+			</div>
+			<div class="studycity" id="varanasi">
+			</div>
+			<div class="northcity" id="katmandu">
+			</div>
+			<div class="northcity" id="jammu">
+			</div>
+			<div class="northcity" id="srinagar">
+			</div>
+			<div class="northcity" id="jaipur">
+			</div>
+			<div class="northcity" id="jaisalmer">
+			</div>
+			<div class="northcity" id="jodhpur">
+			</div>
+			<div class="northcity" id="mumbai">
+			</div>
+			<div class="northcity" id="pune">
+			</div>
+		</div>
+		<div class="rest">
 		{% block body %}{% endblock %}
+		</div>
 </html>

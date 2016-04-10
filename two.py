@@ -78,8 +78,18 @@ def delete():
 	flash("Entry was deleted!")
 	return redirect(url_for('show_entries'))
 
+@app.route('/edit', methods=['POST'])
+def edit():
+	cur = g.db.execute('SELECT * FROM entries WHERE id=(?)', [request.form['id']])
+	part = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
+	return render_template('edit.html', entry=part[0])
 
-
+@app.route('/update', methods=["POST"])
+def update():
+	g.db.execute('UPDATE entries SET title=?, text=? WHERE id=?', [request.form['title'], request.form['text'], request.form['id']])
+	g.db.commit()
+	flash("You updated entry %s" %request.form['title'])
+	return redirect(url_for('show_entries'))
 
 
 #Runs server

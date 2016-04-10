@@ -15,15 +15,24 @@
 	{% for entry in entries %}
 		<li>
 			<h2>
-				{{ entry.title }}{{ entry.id }}
+				{{ entry.title }}
 			</h2>
 			{{ entry.text|safe }}
 		</li> 
 
 		{% if session.logged_in %}
-			<form action="{{ url_for('delete')}}" method="post">
+			<!-- Delete button -->
+			<form action="{{ url_for('delete')}}" method="POST">
 			<input type=hidden name=id value={{entry.id}}>
 			<input type=submit value="Delete">
+			</form>
+
+			<!-- Edit button -->
+			<form action="{{ url_for('edit') }}" method="POST">
+			<input type=hidden name='id' value={{entry.id}}>
+			<input type=submit value="Edit">
+			</form>
+
 		{% endif %}
 
 	{% else %}
