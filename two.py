@@ -117,7 +117,17 @@ def entryvar(var = None):
 	entry = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
 	cur = g.db.execute('SELECT entry, name FROM tags')
 	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
-	return render_template("entry.html", var = var, entry = entry[0], tags = tags)
+	cur = g.db.execute('SELECT name, comment, entry FROM comments')
+	comments = [dict(name=row[0], comment=row[1], entry=row[2]) for row in cur.fetchall()]
+	return render_template("entry.html", var = var, entry = entry[0], tags = tags, comments = comments)
+
+@app.route('/submit_comment', methods=["POST"])
+def submit_comment():
+	g.db.execute('INSERT INTO comments (entry, name, comment) VALUES (?, ?, ?)', [request.form['entry'], request.form['name'], request.form['comment']])
+	g.db.commit()
+	flash("You added a comment!")
+	a = request.form['entry']
+	return redirect(url_for("entryvar", var=request.form['entry']))
 
 
 #Runs server

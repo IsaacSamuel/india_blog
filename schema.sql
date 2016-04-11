@@ -15,8 +15,7 @@ create table tags (
 drop table if exists comments;
 create table comments (
 	id integer primary key autoincrement,
-	comment_id integer,
+	entry integer,
 	name text not null,
-	email text not null,
 	comment text not null
 );

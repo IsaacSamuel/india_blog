@@ -12,8 +12,6 @@
 			{% endif %}
 		{% endfor %}
 	</div>
-	<div class=comment>
-	</div>
 {% if session.logged_in %}
 	<!-- Delete button -->
 	<form action="{{ url_for('delete')}}" method="POST">
@@ -34,5 +32,27 @@
 	<input type=submit value="Add Tag">
 	</form>
 {% endif %}
+<!-- Adding a comment -->
+	<div class=comment>
+	<dl>
+	{% for comment in comments %}
+		{% if entry.id == comment.entry %}
+			<dt>Name:
+			<dd>{{comment.name}}<br>
+			<dd>{{comment.comment}}
+		{% endif %}
+	{% endfor %}
+	</dl>
+	<dl>
+		<form action="{{ url_for('submit_comment') }}" method="POST">
+		<dt>Name:
+		<dd><input type=text name=name>
+		<dt>Comment:
+		<dd><textarea name=comment rows=5 cols=40></textarea>
+		<input type=hidden name=entry value={{entry.id}}><br>
+		<input type=submit value="Submit Comment">
+	</form>
+	</dl>
+	</div>
 
 {%endblock%}
