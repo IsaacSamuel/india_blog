@@ -40,6 +40,11 @@
 			<dt>Name:
 			<dd>{{comment.name}}<br>
 			<dd>{{comment.comment}}
+			<form action="{{ url_for('delete_comment') }}" method="POST">
+			<input type=hidden name=id value={{comment.id}}>
+			<input type=hidden name=entry value={{entry.id}}>
+			<input type=submit value="Delete Comment">
+			</form>
 		{% endif %}
 	{% endfor %}
 	</dl>

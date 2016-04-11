@@ -117,8 +117,8 @@ def entryvar(var = None):
 	entry = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
 	cur = g.db.execute('SELECT entry, name FROM tags')
 	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
-	cur = g.db.execute('SELECT name, comment, entry FROM comments')
-	comments = [dict(name=row[0], comment=row[1], entry=row[2]) for row in cur.fetchall()]
+	cur = g.db.execute('SELECT name, comment, entry, id FROM comments')
+	comments = [dict(name=row[0], comment=row[1], entry=row[2], id=row[3]) for row in cur.fetchall()]
 	return render_template("entry.html", var = var, entry = entry[0], tags = tags, comments = comments)
 
 @app.route('/submit_comment', methods=["POST"])
@@ -128,6 +128,14 @@ def submit_comment():
 	flash("You added a comment!")
 	a = request.form['entry']
 	return redirect(url_for("entryvar", var=request.form['entry']))
+
+@app.route('/delete_comment', methods=['POST'])
+def delete_comment():
+	g.db.execute('DELETE FROM comments WHERE id=(?)', [request.form['id']])
+	g.db.commit()
+	flash("Comment was deleted!")
+	return redirect(url_for("entryvar", var=request.form['entry']))
+
 
 
 #Runs server
