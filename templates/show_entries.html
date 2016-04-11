@@ -15,7 +15,7 @@
 	{% for entry in entries %}
 		<li>
 			<h2>
-				{{ entry.title }}
+				<a href="/entry/{{entry.id}}">{{ entry.title }}</a>
 			</h2>
 			{{ entry.text|safe }}<br><p>Tags:
 			{% for tag in tags %}

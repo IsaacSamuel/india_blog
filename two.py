@@ -110,6 +110,15 @@ def add_tag():
 	flash("You added some tags.")
 	return redirect(url_for('show_entries'))
 
+@app.route('/entry/')
+@app.route('/entry/<var>')
+def entryvar(var = None):
+	cur = g.db.execute('SELECT * FROM entries where id=(?)', [var])
+	entry = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
+	cur = g.db.execute('SELECT entry, name FROM tags')
+	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
+	return render_template("entry.html", var = var, entry = entry[0], tags = tags)
+
 
 #Runs server
 if __name__ == "__main__":
