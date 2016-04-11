@@ -33,12 +33,16 @@ def teardown_request(exception):
 	if db is not None:
 		db.close()
 
+
+
 #ROUTING
 @app.route('/')
 def show_entries():
 	cur = g.db.execute('SELECT * FROM entries ORDER BY id DESC')
 	entries = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
-	return render_template('show_entries.html', entries = entries)
+	cur = g.db.execute('SELECT entry, name FROM tags')
+	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
+	return render_template('show_entries.html', entries = entries, tags = tags)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -89,6 +93,21 @@ def update():
 	g.db.execute('UPDATE entries SET title=?, text=? WHERE id=?', [request.form['title'], request.form['text'], request.form['id']])
 	g.db.commit()
 	flash("You updated entry %s" %request.form['title'])
+	return redirect(url_for('show_entries'))
+
+@app.route('/add_tag', methods=['POST'])
+def add_tag():
+	g.db.execute('DELETE FROM tags WHERE entry=(?)', [request.form['entry']])
+	g.db.commit()
+	if ", " in request.form['name']:
+		split = request.form['name'].split(", ")
+		for i in split:
+			g.db.execute('INSERT INTO tags (entry, name) VALUES (?, ?)', [request.form['entry'], i])
+			g.db.commit()
+	else:
+		g.db.execute('INSERT INTO tags (entry, name) VALUES (?, ?)', [request.form['entry'], request.form['name']])
+		g.db.commit()
+	flash("You added some tags.")
 	return redirect(url_for('show_entries'))
 
 
