@@ -28,7 +28,7 @@
 	<!-- Add tags -->
 	<form action="{{ url_for('add_tag') }}" method="POST">
 	<input type=hidden name=entry value={{entry.id}}>
-	<input type=text name=name>
+	<input type=text name=name value={% for tag in tags %}{% if tag.entry == entry.id%}{{tag.name}},{% endif %}{% endfor %}>
 	<input type=submit value="Add Tag">
 	</form>
 {% endif %}

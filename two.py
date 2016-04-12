@@ -101,7 +101,7 @@ def add_tag():
 	g.db.execute('DELETE FROM tags WHERE entry=(?)', [request.form['entry']])
 	g.db.commit()
 	if ", " in request.form['name']:
-		split = request.form['name'].split(", ")
+		split = request.form['name'].split(",")
 		for i in split:
 			g.db.execute('INSERT INTO tags (entry, name) VALUES (?, ?)', [request.form['entry'], i])
 			g.db.commit()
@@ -122,8 +122,7 @@ def tag(tag = None):
 		entries = entries + [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
 	cur = g.db.execute('SELECT entry, name FROM tags')
 	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
-
-	return render_template("tag.html", entries = entries, tags = tags, entry_numbers = entry_numbers)
+	return render_template("tag.html", entries = entries, tags = tags, entry_numbers = entry_numbers, tagnames=tagnames)
 
 
 @app.route('/entry/')

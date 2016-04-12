@@ -20,7 +20,7 @@
 			{{ entry.text|safe }}<br><p>Tags:
 			{% for tag in tags %}
 				{% if tag.entry == entry.id%}
-					{{tag.name}},
+					<a href="/tag/{{tag.name}}">{{tag.name}}</a>
 				{% endif %}
 			{% endfor %}
 		</li> 
