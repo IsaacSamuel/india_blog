@@ -37,6 +37,7 @@ def teardown_request(exception):
 
 #ROUTING
 @app.route('/')
+@app.route('/index')
 def show_entries():
 	cur = g.db.execute('SELECT * FROM entries ORDER BY id DESC')
 	entries = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
@@ -110,6 +111,21 @@ def add_tag():
 	flash("You added some tags.")
 	return redirect(url_for('show_entries'))
 
+@app.route('/tag/')
+@app.route('/tag/<tag>')
+def tag(tag = None):
+	cur = g.db.execute('SELECT entry FROM tags WHERE name=(?)', [tag])
+	entry_numbers= cur.fetchall()
+	entries = []
+	for each in entry_numbers:
+		cur = g.db.execute('SELECT * FROM entries WHERE id =(?)', [each[0]])
+		entries = entries + [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
+	cur = g.db.execute('SELECT entry, name FROM tags')
+	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
+
+	return render_template("tag.html", entries = entries, tags = tags, entry_numbers = entry_numbers)
+
+
 @app.route('/entry/')
 @app.route('/entry/<var>')
 def entryvar(var = None):
@@ -135,6 +151,8 @@ def delete_comment():
 	g.db.commit()
 	flash("Comment was deleted!")
 	return redirect(url_for("entryvar", var=request.form['entry']))
+
+
 
 
 

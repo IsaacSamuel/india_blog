@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body%}
+<div class=entries>
+{% for entry in entries%}
+	<p>Entry Number {{entry.id}}</p>
+	<div class=entrybody>
+	<h1>{{entry.title}}</h1>
+	<p>{{entry.text}}</p>
+	</div>
+	<p>Tags:</p>
+	{% for tag in tags%}
+		{% if tag.entry == entry.id %}
+			{{tag.name}}
+		{% endif %}
+	{% endfor %}
+	<br>
+{%endfor%}
+</div>
+{% endblock %}

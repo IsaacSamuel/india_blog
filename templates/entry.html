@@ -40,11 +40,13 @@
 			<dt>Name:
 			<dd>{{comment.name}}<br>
 			<dd>{{comment.comment}}
+			{% if session.logged_in %}
 			<form action="{{ url_for('delete_comment') }}" method="POST">
 			<input type=hidden name=id value={{comment.id}}>
 			<input type=hidden name=entry value={{entry.id}}>
 			<input type=submit value="Delete Comment">
 			</form>
+			{% endif %}
 		{% endif %}
 	{% endfor %}
 	</dl>
