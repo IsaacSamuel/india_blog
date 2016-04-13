@@ -1,6 +1,7 @@
 import sqlite3
 from flask import Flask , render_template, g, session, redirect, url_for, abort, flash, request
 from contextlib import closing
+import txttohtml
 
 #config
 DATABASE = "/tmp/flaskr.db"
@@ -39,12 +40,13 @@ def teardown_request(exception):
 @app.route('/')
 @app.route('/index')
 def show_entries():
-	cur = g.db.execute('SELECT * FROM entries ORDER BY id DESC')
-	entries = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
-	cur = g.db.execute('SELECT entry, name FROM tags')
-	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
-	return render_template('show_entries.html', entries = entries, tags = tags)
+	entries = txttohtml.allentries()["entries"]
+	titles = txttohtml.allentries()["titles"]
+	bodies = txttohtml.allentries()["bodies"]
+	taglist = txttohtml.allentries()["tags"]
 
+	return render_template('show_entries.html', entries = entries, taglist = taglist, bodies = bodies, titles = titles)
+"""
 @app.route('/add', methods=['POST'])
 def add_entry():
 	if not session.get('logged_in'):
@@ -150,7 +152,7 @@ def delete_comment():
 	g.db.commit()
 	flash("Comment was deleted!")
 	return redirect(url_for("entryvar", var=request.form['entry']))
-
+"""
 
 
 

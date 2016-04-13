@@ -1,27 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
-	{% if session.logged_in %}
-		<form action="{{ url_for('add_entry')}}" method="post" class=add-entry>
-			<dl>
-				<dt>Title:
-				<dd><input type=text size=30 name=title>
-				<dt>Text:
-				<dd><textarea name=text rows=5 cols=40></textarea>
-				<dd><input type=submit value=Share>
-			</dl>
-		</form>
-	{% endif %}
 	<ul class=entries>
-	{% for entry in entries %}
+	{% for i in entries %}
 		<li>
 			<h2>
-				<a href="/entry/{{entry.id}}">{{ entry.title }}</a>
+				{{ titles[i] }}
 			</h2>
-			{{ entry.text|safe }}<br><p>Tags:
-			{% for tag in tags %}
-				{% if tag.entry == entry.id%}
-					<a href="/tag/{{tag.name}}">{{tag.name}}</a>
-				{% endif %}
+			{{ bodies[i]|safe }}<br><p>Tags:
+			{% for each in taglist[i] %}
+					{{each}}
 			{% endfor %}
 		</li> 
 
