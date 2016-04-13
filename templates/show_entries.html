@@ -2,15 +2,14 @@
 {% block body %}
 	<ul class=entries>
 	{% for i in entries %}
-		<li>
+		<p>Entry Number:{{i+1}}</p>
 			<h2>
 				<a href="entry/{{i}}">{{ titles[i] }}</a>
 			</h2>
 			{{ bodies[i]|safe }}<br><p>Tags:
 			{% for each in taglist[i] %}
-					{{each}}
+					<a href="/tag/{{each}}">{{each}}</a>
 			{% endfor %}
-		</li> 
 
 	{% else %}
 		<li><em>No entries thus far.</em></li>

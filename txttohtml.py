@@ -15,7 +15,7 @@ def allentries():
 				title = title + [line.rstrip()]
 			elif line.rstrip() == "TAGS:":
 				line = currentfile.readline()
-				tags = tags + [line.rstrip().split()]
+				tags = tags + [line.rstrip().split(", ")]
 			if line.rstrip() == "ENTRY:":
 				line = currentfile.readline()
 				entry = entry + [int(line.rstrip())]

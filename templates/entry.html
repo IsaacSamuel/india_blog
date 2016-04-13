@@ -7,7 +7,7 @@
 			{{body|safe}}
 		</div><p>Tags:
 		{% for tag in tags %}
-			{{tag}}
+			<a href="../tag/{{tag}}">{{tag}}</a>
 		{% endfor %}
 	</div>
 {% if session.logged_in %}

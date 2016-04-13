@@ -62,7 +62,7 @@ def login():
 			return redirect(url_for("show_entries"))
 	return render_template('login.html', error=error)
 
-'''
+
 @app.route('/logout')
 def logout():
 	session.pop('logged_in', None)
@@ -73,16 +73,30 @@ def logout():
 @app.route('/tag/')
 @app.route('/tag/<tag>')
 def tag(tag = None):
-	cur = g.db.execute('SELECT entry FROM tags WHERE name=(?)', [tag])
-	entry_numbers= cur.fetchall()
+	if tag:
+		tag = str(tag)
+
+	tagslist = txttohtml.allentries()["tags"]
+
+	#finds indexes of the tag array containing the tag that was searched for
+	valid = []
+	for tags in tagslist:
+		for each in tags:
+			if tag in each:
+				valid = valid + [tagslist.index(tags)]
+
+
 	entries = []
-	for each in entry_numbers:
-		cur = g.db.execute('SELECT * FROM entries WHERE id =(?)', [each[0]])
-		entries = entries + [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
-	cur = g.db.execute('SELECT entry, name FROM tags')
-	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
-	return render_template("tag.html", entries = entries, tags = tags, entry_numbers = entry_numbers, tagnames=tagnames)
-'''
+
+	for i in valid:
+		entries = entries +[txttohtml.allentries()["entries"][i]]
+
+	tagslist = txttohtml.allentries()["tags"]
+	titles = txttohtml.allentries()["titles"]
+	bodies = txttohtml.allentries()["bodies"]
+
+	return render_template("tag.html", entries = entries, tags = tagslist, titles=titles, bodies=bodies)
+
 
 @app.route('/entry/')
 @app.route('/entry/<var>')
