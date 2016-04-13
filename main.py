@@ -46,16 +46,7 @@ def show_entries():
 	taglist = txttohtml.allentries()["tags"]
 
 	return render_template('show_entries.html', entries = entries, taglist = taglist, bodies = bodies, titles = titles)
-"""
-@app.route('/add', methods=['POST'])
-def add_entry():
-	if not session.get('logged_in'):
-		abort(401)
-	g.db.execute('INSERT INTO entries (title, text) VALUES (?, ?)',
-		[request.form['title'], request.form['text']])
-	g.db.commit()
-	flash("New entry was successfully posted!")
-	return redirect(url_for('show_entries'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,47 +62,13 @@ def login():
 			return redirect(url_for("show_entries"))
 	return render_template('login.html', error=error)
 
+'''
 @app.route('/logout')
 def logout():
 	session.pop('logged_in', None)
 	flash("You were logged out!")
 	return redirect(url_for("show_entries"))
 
-@app.route('/delete', methods=['POST'])
-def delete():
-	g.db.execute('DELETE FROM entries WHERE id=(?)',
-		[request.form['id']])
-	g.db.commit()
-	flash("Entry was deleted!")
-	return redirect(url_for('show_entries'))
-
-@app.route('/edit', methods=['POST'])
-def edit():
-	cur = g.db.execute('SELECT * FROM entries WHERE id=(?)', [request.form['id']])
-	part = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
-	return render_template('edit.html', entry=part[0])
-
-@app.route('/update', methods=["POST"])
-def update():
-	g.db.execute('UPDATE entries SET title=?, text=? WHERE id=?', [request.form['title'], request.form['text'], request.form['id']])
-	g.db.commit()
-	flash("You updated entry %s" %request.form['title'])
-	return redirect(url_for('show_entries'))
-
-@app.route('/add_tag', methods=['POST'])
-def add_tag():
-	g.db.execute('DELETE FROM tags WHERE entry=(?)', [request.form['entry']])
-	g.db.commit()
-	if ", " in request.form['name']:
-		split = request.form['name'].split(",")
-		for i in split:
-			g.db.execute('INSERT INTO tags (entry, name) VALUES (?, ?)', [request.form['entry'], i])
-			g.db.commit()
-	else:
-		g.db.execute('INSERT INTO tags (entry, name) VALUES (?, ?)', [request.form['entry'], request.form['name']])
-		g.db.commit()
-	flash("You added some tags.")
-	return redirect(url_for('show_entries'))
 
 @app.route('/tag/')
 @app.route('/tag/<tag>')
@@ -125,18 +82,23 @@ def tag(tag = None):
 	cur = g.db.execute('SELECT entry, name FROM tags')
 	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
 	return render_template("tag.html", entries = entries, tags = tags, entry_numbers = entry_numbers, tagnames=tagnames)
-
+'''
 
 @app.route('/entry/')
 @app.route('/entry/<var>')
 def entryvar(var = None):
-	cur = g.db.execute('SELECT * FROM entries where id=(?)', [var])
-	entry = [dict(id=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
-	cur = g.db.execute('SELECT entry, name FROM tags')
-	tags = [dict(entry=row[0], name=row[1]) for row in cur.fetchall()]
+	if var:
+		var = int(var)
+
+	entries = txttohtml.allentries()["entries"][var]
+	titles = txttohtml.allentries()["titles"][var]
+	bodies = txttohtml.allentries()["bodies"][var]
+	taglist = txttohtml.allentries()["tags"][var]
+
 	cur = g.db.execute('SELECT name, comment, entry, id FROM comments')
 	comments = [dict(name=row[0], comment=row[1], entry=row[2], id=row[3]) for row in cur.fetchall()]
-	return render_template("entry.html", var = var, entry = entry[0], tags = tags, comments = comments)
+	
+	return render_template("entry.html", var = var, entry = entries, tags = taglist, comments = comments, title = titles, body=bodies)
 
 @app.route('/submit_comment', methods=["POST"])
 def submit_comment():
@@ -152,7 +114,6 @@ def delete_comment():
 	g.db.commit()
 	flash("Comment was deleted!")
 	return redirect(url_for("entryvar", var=request.form['entry']))
-"""
 
 
 

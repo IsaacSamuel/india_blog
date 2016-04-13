@@ -1,2 +1,2 @@
-from two import init_db
+from main import init_db
 init_db()
