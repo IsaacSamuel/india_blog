@@ -1,20 +1,36 @@
 {% extends "layout.html" %}
 {% block body %}
-	<ul class=entries>
 	{% for i in entries %}
-		<p>Entry Number:{{i+1}}</p>
-			<h2>
-				<a href="entry/{{i}}">{{ titles[i] }}</a>
-			</h2>
-			{{ bodies[i]|safe }}<br><p>Tags:
-			{% for each in taglist[i] %}
-					<a href="/tag/{{each}}">{{each}}</a>
-			{% endfor %}
+	<div class=entries>
+		<p class=num>Entry Number:{{i+1}}</p>
+			<div class = body>
+				<h1><a href="entry/{{i}}">{{ titles[i] }}</a></h1>
+				{{ bodies[i]|safe }}<br>
+			</div>
+		<p>Tags:</p>
+		{% for each in taglist[i] %}
+				<a href="/tag/{{each}}">{{each}}</a>
+		{% endfor %}
+	</div>
 
 	{% else %}
 		<li><em>No entries thus far.</em></li>
-	
 	{% endfor %}
 	</ul>
+	<div class=leftnav>
+	{% if var > 1 %}
+		<a href="/index/"+"{{var-1}}">Go back</a>
+	{% elif var == 1 %}
+		<a href="../index">Go back</a>
+	{% endif %}
+	</div>
+	<div class=rightnav>
+		{% if var == 0 %}
+			<a href="/index/{{var+1}}">Go Foward</a>
+		{% elif length - var < var*4 %}
+		{% else %}
+			<a href=".{{var+1}}">Go back</a>
+		{% endif %}
+	</div>
 
 {% endblock %}

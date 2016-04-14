@@ -39,13 +39,26 @@ def teardown_request(exception):
 #ROUTING
 @app.route('/')
 @app.route('/index')
-def show_entries():
-	entries = txttohtml.allentries()["entries"]
+@app.route('/index/<var>')
+def show_entries(var=0):
+
+	entries=[]
 	titles = txttohtml.allentries()["titles"]
 	bodies = txttohtml.allentries()["bodies"]
 	taglist = txttohtml.allentries()["tags"]
 
-	return render_template('show_entries.html', entries = entries, taglist = taglist, bodies = bodies, titles = titles)
+	length = len(txttohtml.allentries()["entries"])
+	start = int(var)*4
+	rangenum = start+4
+
+	if (length-start) < 4:
+		rangenum = start+length-start
+
+	for i in range(start, rangenum):
+		entries = entries + [txttohtml.allentries()["entries"][i]]
+
+
+	return render_template('show_entries.html', entries = entries, taglist = taglist, bodies = bodies, titles = titles, var=int(var), length=length)
 
 
 @app.route('/login', methods=['GET', 'POST'])

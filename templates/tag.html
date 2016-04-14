@@ -2,16 +2,17 @@
 {% block body%}
 <div class=entries>
 {% for entry in entries%}
-	<p>Entry Number {{entry+1}}</p>
-	<div class=entrybody>
-	<h1><a href="../entry/{{entry}}">{{titles[entry]}}</a></h1>
-	<p>{{bodies[entry]|safe}}</p>
+	<div class=body>
+		<p class=num>Entry Number {{entry+1}}</p>
+		<div class=entrybody>
+		<h1><a href="../entry/{{entry}}">{{titles[entry]}}</a></h1>
+		<p>{{bodies[entry]|safe}}</p>
 	</div>
 	<p>Tags:</p>
 	{% for tag in tags[entry]%}
 		<a href="{{tag}}">{{tag}}</a>
 	{% endfor %}
 	<br>
-{%endfor%}
 </div>
+{%endfor%}
 {% endblock %}

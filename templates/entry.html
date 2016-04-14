@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block body%}
-	<div class=entry>
-		<p>Entry number {{ entry }}</p>
-		<div class=text>
+	<div class=entries>
+		<p class=num>Entry number {{ entry + 1 }}</p>
+		<div class=body>
 			<a href="{{i}}"><h1>{{title}}</h1></a>
 			{{body|safe}}
 		</div><p>Tags:
